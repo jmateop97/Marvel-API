@@ -4,11 +4,11 @@ var urlCharacters = 'https://gateway.marvel.com:443/v1/public/characters?limit=1
 var urlComics = 'https://gateway.marvel.com:443/v1/public/comics?limit=100&offset='
 var urlSeries = 'https://gateway.marvel.com:443/v1/public/series?limit=100&offset='
 var urlEvents = 'https://gateway.marvel.com:443/v1/public/events?limit=100&offset='
-var tiempoEspera=20000;
+var tiempoEspera=25000;
 
-const restoURL = "&ts=1&apikey=ee96dda5519334616bf7fc899b1f3642&hash=43b18ea9140e849e9fd68cf7bc0907c2"
+// const restoURL = "&ts=1&apikey=ee96dda5519334616bf7fc899b1f3642&hash=43b18ea9140e849e9fd68cf7bc0907c2"
 // const restoURL = "&ts=1&apikey=b870f65c899b2f131ab50461401a42d3&hash=6b99c8b03cb53de8a82e7bc3e251a952"
-// const restoURL = "&ts=1&apikey=a9c74dafc327d24f40d953a08e0eef9a&hash=a9131a330402b4bafc72630ec0c0766e"
+const restoURL = "&ts=1&apikey=a9c74dafc327d24f40d953a08e0eef9a&hash=a9131a330402b4bafc72630ec0c0766e"
 // const restoURL = "&ts=1&apikey=6f7fd38a8d0087953e9ed5884e9faf11&hash=9b4a6548f63e760f0c5a6906b9978aca"
 const restoURLCharacters = restoURL;
 const urlCompleta = urlAPI + restoURL;
@@ -53,9 +53,7 @@ function cargaInicial() {
     setTimeout(() => {
         document.getElementsByClassName("pantallaCarga")[0].remove();
         arrayHeroes = arrayHeroes.sort((a, b) => b.comics.available - a.comics.available);
-        console.log(arrayHeroes);
-        console.log(arraySeries);
-        console.log(arrayEventos);
+
     }, tiempoEspera);
     desplegarElementosIniciales(tiempoEspera);
     setTimeout(()=>{
@@ -81,9 +79,9 @@ function marcarFavoritos(opcion,claseContenedor){
         if(localStorage.getItem(`favoritos${opcion}`)!=null){
             let cadenaFav = localStorage.getItem(`favoritos${opcion}`);
             let arrayFav = cadenaFav.split("|");
-            console.log(arrayFav);
+
             let contenedor = document.getElementsByClassName(`${claseContenedor}`)[0];
-            console.log(contenedor);
+
             let divsContenedor;
             if(opcion=="Heroes"){
                 divsContenedor = contenedor.getElementsByClassName("heroe");
@@ -95,9 +93,7 @@ function marcarFavoritos(opcion,claseContenedor){
             else{
                 divsContenedor = contenedor.getElementsByClassName("serie");
             }
-            console.log(divsContenedor);
             for(let divContenedor of divsContenedor){
-                console.log(divContenedor.getElementsByTagName("input")[0])
                 for(let nombreFav of arrayFav){
                     if(divContenedor.getElementsByTagName("input")[0].value==nombreFav){
                         let imagenFav = divContenedor.getElementsByClassName("favorito")[0].getElementsByTagName("img")[0];
@@ -141,7 +137,6 @@ function mostrarFavoritos() {
             mainContainer.append(contenedorIndex);
             cadenaFavoritos = localStorage.getItem(`favoritos${categorias[i]}`);
             arrayFav = cadenaFavoritos.split("|");
-            console.log(arrayFav);
             if(arrayFav[arrayFav.length-1]==""){
                 arrayFav.pop();
             }
@@ -152,20 +147,16 @@ function mostrarFavoritos() {
                 }
                 else if(i==1){
                     arrayFavAux = arrayComics.filter(elemento=> elemento.title==arrayFav[j]);
-                    console.log(arrayFavAux[0])
                 }
 
                 else if(i==2){
                     arrayFavAux = arraySeries.filter(elemento=> elemento.title==arrayFav[j]);
-                    console.log(arrayFavAux[0])
                 }
 
                 else if(i==3){
                     arrayFavAux = arrayEventos.filter(elemento=> elemento.title==arrayFav[j]);
-                    console.log(arrayFavAux[0])
                 }
                 crearDivDato(categorias[i],arrayFavAux[0]);
-                console.log(document.getElementsByTagName("section")[contador])
                 contador++;
                 marcarFavoritos(categorias[i],"contenedorIndex");
 
@@ -277,15 +268,14 @@ async function heroesEnArray() {
         let json = await respuesta.json();
 
         for (let j = 0; j < 100; j++) {
-
-            if (!json.data.results[j].thumbnail.path.includes("not_ava")) {
+            if (json.data.results[j]!=undefined) {
                 arrayHeroes.push(json.data.results[j]);
             }
             else {
-                let heroe = json.data.results[j];
-                heroe.thumbnail.path = "css/Imagenes/ImagenNoEncontrada";
-                heroe.thumbnail.extension = "jpg";
-                arrayHeroes.push(heroe);
+                // let heroe = json.data.results[j];
+                // heroe.thumbnail.path = "css/Imagenes/ImagenNoEncontrada";
+                // heroe.thumbnail.extension = "jpg";
+                // arrayHeroes.push(heroe);
             }
         }
     }
@@ -326,7 +316,7 @@ async function eventosEnArray() {
         }
         let json = await respuesta.json();
         for (let j = 0; j < 100; j++) {
-            if (!json.data.results[j].thumbnail.path.includes("not_ava")) {
+            if (json.data.results[j]!=undefined) {
                 arrayEventos.push(json.data.results[j]);
             }
         }
@@ -352,13 +342,12 @@ async function comicsEnArray() {
         }
         let json = await respuesta.json();
         for (let j = 0; j < 100; j++) {
-            if (!json.data.results[j].thumbnail.path.includes("not_ava")) {
+            if (json.data.results[j]!=undefined) {
                 arrayComics.push(json.data.results[j]);
             }
         }
     }
     
-    console.log(arrayComics[0]);
 }
 
 
@@ -384,32 +373,27 @@ function mostrarIndicePaginas(eleccion) {
                 numIndices = numeroIn+1;
 
             }
-            console.log(numIndices)
             break;
 
         case "Series":
             numeroIn = arrayEventos.length/100;
             numIndices = numeroIn;
-            console.log(numIndices)
             break;
 
         case "Comics":
             numeroIn = arrayEventos.length/100;
             numIndices = numeroIn;
-            console.log(numIndices)
             break;
 
         case "Heroes":
             numeroIn = arrayHeroes.length/100;
             numIndices = numeroIn;
-            console.log(numIndices)
             break;
     
         default:
             break;
     }
 
-    console.log("Hay"+numIndices+"índices");
     for (i = 0; i < numIndices; i++) {
         let divPagina = document.createElement("DIV");
         if (i == 0) {
@@ -446,8 +430,8 @@ function opcionEscogida(e) {
  * @param {"Categoría de la cual, se van a desplegar los datos."} opcionBuscar 
  */
 function desplegarDatos(offset, opcionBuscar) {
+    enInicio=false;
     let claseCss = "";
-    console.log(opcionBuscar);
     let contenedorIndex = document.getElementsByClassName("contenedorIndex")[0];
     let arrayBusqueda = [];
     if (document.getElementsByClassName("contenedorIndex").length > 0) {
@@ -491,7 +475,6 @@ function desplegarElementosIniciales(tiempoEspera) {
             let select = document.getElementsByTagName("select")[0];
             encontrarDatosBusqueda(e.target.value, select.value);
         })
-        console.log(document.getElementsByClassName("indicePaginas")[0])
         if (document.getElementsByClassName("indicePaginas").length <= 0) {
             mostrarIndicePaginas("Heroes");
         }
@@ -499,18 +482,14 @@ function desplegarElementosIniciales(tiempoEspera) {
 
         }
         if (enInicio == false) {
-            console.log("Entra en la condición")
             document.getElementsByClassName("seleccionSuperheroe")[0].style.display = "block";
             document.getElementsByClassName("bannerInicio")[0].style.display = "block";
             if (document.getElementsByClassName("pantallaCarga").length != 0) {
                 document.getElementsByClassName("pantallaCarga")[0].remove();
             }
-            console.log(arrayHeroes.length);
             for (let i = 0; i < 100; i++) {
-                console.log("Entra en el for")
                 crearDivDato("Heroes",arrayHeroes[i]);
             }
-            console.log(arrayHeroes[0])
         }
         crearSeccionNotas();
         enInicio = true;
@@ -602,11 +581,8 @@ function crearDivDato(opcionSelect, elemento) {
     iamgenElemento.addEventListener("click", (e) => {
         let divDato = e.target.parentElement.parentElement;
         let inputH = divDato.getElementsByTagName("input")[0];
-        console.log(inputH.value);
         let nombreElemento = "";
-        console.log(e.target.value)
         nombreElemento = `${inputH.value}`;
-        console.log(nombreElemento);
         if(opcionSelect=="Heroes"){
             obtenerDatosHeroe(nombreElemento);
         }
@@ -629,7 +605,6 @@ function crearDivDato(opcionSelect, elemento) {
     seccionFavorito.addEventListener("click", (e) => {
         let favoritos = localStorage.getItem("favoritos");
         let divDato = e.target.parentElement.parentElement;
-        console.log(divDato);
         let corazon = e.target;
 
         let inputCampoDiv = divDato.getElementsByTagName("input")[0];
@@ -720,7 +695,6 @@ function crearHTMLElemento(seccionMostrar){
  */
 function mostrarPaginaElemento(seccionMostrar,titulo) {
     borrar();
-    console.log(titulo);
     let elementoEscogido;
     if(seccionMostrar=="Comics"){
          elementoEscogido = arrayComics.filter(element => element.title == `${titulo}`);
@@ -736,7 +710,6 @@ function mostrarPaginaElemento(seccionMostrar,titulo) {
 
     
 
-    console.log(elementoEscogido);
     let body = document.querySelector("body");
     body.removeAttribute("onload");
     let contenidoWiki = document.getElementsByClassName("contenidoWiki")[0];
@@ -770,13 +743,11 @@ function mostrarPaginaElemento(seccionMostrar,titulo) {
     for (let personaje of elementoEscogido[0].characters.items) {
         personajesElementoEscogido.push(`${personaje.name}`);
     }
-    console.log(personajesElementoEscogido);
-    console.log(arrayHeroes[0].name);
+
 
     for (let i = 0; i < personajesElementoEscogido.length; i++) {
         let personaje = arrayHeroes.filter(heroe => heroe.name == `${personajesElementoEscogido[i]}`);
         if(personaje[0]!=undefined){
-            console.log("Entra para crear los personajes")
             crearElementosContenedorElementoEscogido(personaje[0],"contenedorPersonajes","personaje");
         }
     }
@@ -789,7 +760,6 @@ function mostrarPaginaElemento(seccionMostrar,titulo) {
             comicsEvento.push(`${comic.name}`);
         }
 
-        console.log(comicsEvento);
         let contenedorComicsEventos = document.createElement("div");
         contenedorComicsEventos.classList.add("contenedorComicsEventos");
         contenedorComicsEventos.setAttribute("style","display:none;");
@@ -799,7 +769,6 @@ function mostrarPaginaElemento(seccionMostrar,titulo) {
         for (let i = 0; i < comicsEvento.length; i++) {
             //Se busca en el array de comics, un comic que tenga como título el elemento i del array de comics del evento.
             let comic = arrayComics.filter(comic => comic.title == `${comicsEvento[i]}`);
-            console.log(comic);
             //Si el comic se encuentra, se crea su ficha dentro de la clase de contenedor de comics. 
             if(comic[0]!=undefined){
                 crearElementosContenedorElementoEscogido(comic[0],"contenedorComicsEventos","comic");
@@ -817,11 +786,9 @@ function mostrarPaginaElemento(seccionMostrar,titulo) {
  * @param {"La clase CSS que tendrá asociada el contenedor. Se pasa por parámetro para que este método se ajuste a todos los tipos de contenedores"} claseElementoContenedor 
  */
 function crearElementosContenedorElementoEscogido(elemento,claseContenedor,claseElementoContenedor){
-    console.log("Entra 2")
     let divPersonaje = document.createElement("DIV");
     divPersonaje.classList.add(`${claseElementoContenedor}`);
     let contenedorContenidoElemento = document.getElementsByClassName(`${claseContenedor}`)[0];
-    console.log(contenedorContenidoElemento)
     contenedorContenidoElemento.appendChild(divPersonaje);
     let divImagenPersonaje = document.createElement("div");
     divImagenPersonaje.classList.add("divImagenPersonaje");
@@ -841,12 +808,10 @@ function crearElementosContenedorElementoEscogido(elemento,claseContenedor,clase
     inputUrl.setAttribute("type", "hidden");
     if(claseElementoContenedor=="personaje"){
         inputUrl.value = `${elemento.name}`;
-        console.log(elemento.name);
         nombrePersonaje.innerHTML = `${elemento.name}`;
     }
     else{
         inputUrl.value = `${elemento.title}`;
-        console.log(elemento.title);
         nombrePersonaje.innerHTML = `${elemento.title}`;
     }
     divImagenPersonaje.appendChild(imagenPersonaje)
@@ -856,7 +821,6 @@ function crearElementosContenedorElementoEscogido(elemento,claseContenedor,clase
 
     //A cada elemento se le asignará una función diferente al evento, dependiendo del tipo de elemento que se esté creando.
     divPersonaje.addEventListener("click", (e) => {
-        console.log(e.target);
         if(claseElementoContenedor=="personaje"){
             obtenerDatosHeroe(`${inputUrl.value}`);
         }
@@ -876,8 +840,7 @@ function crearElementosContenedorElementoEscogido(elemento,claseContenedor,clase
  * @returns el heroe encontrado a partir de su nombre.
  */
 function obtenerNombreHeroe(nombreHeroe) {
-    console.log(urlCompleta);
-    console.log(arrayHeroes[0].name)
+
     let contador = 0;
     let heroeEncontrado;
     for (let i = 0; i < arrayHeroes.length; i++) {
@@ -975,7 +938,6 @@ function obtenerAparacionesHeroe(nombreHeroe,formatoAparicion) {
             }
         }
     }
-    console.log(aparicionesHeroe);
     //Si no hay comics, se le muestra un mensaje de error al usuario
         if (aparicionesHeroe.length == 0) {
             let mensajeError = document.createElement("div");
@@ -1000,6 +962,11 @@ function obtenerAparacionesHeroe(nombreHeroe,formatoAparicion) {
  * Método encargado de borrar la página entera. Se usa cuando queremos cargar otra página.
  */
 function borrar() {
+    window.scroll({ 
+        top: 0, 
+        left: 0, 
+      })
+  
     let seleccionSuperHeroe = document.getElementsByClassName("seleccionSuperheroe")[0];
     let banner = document.getElementsByClassName("bannerInicio")[0];
     let contenedorIndex = document.getElementsByClassName("contenedorIndex")[0];
@@ -1008,10 +975,8 @@ function borrar() {
     let indicePaginas = document.getElementsByClassName("indicePaginas")[0];
     let seccionNotas = document.getElementsByClassName("seccionNotas")[0]; 
     let mainContainerFav = document.getElementsByClassName("mainContainerFav")[0];
-    console.log(mainContainerFav)
     
     if (mainContainerFav != null) {
-        console.log("Entra en borrar")
         mainContainerFav.remove();
     }
         
@@ -1257,27 +1222,27 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
         case "Heroes":
             arrayBusqueda = arrayHeroes;
             claseCss = "heroe";
-            console.log("Entra dentro del switch");
+            
             break;
 
         case "Comics":
             arrayBusqueda = arrayComics;
             claseCss = "comic";
-            console.log("Entra dentro del switch");
+            
             break;
 
             
         case "Series":
             arrayBusqueda = arraySeries;
             claseCss = "comic";
-            console.log("Entra dentro del switch");
+            
             break;
 
             
         case "Events":
             arrayBusqueda = arrayEventos;
             claseCss = "comic";
-            console.log("Entra dentro del switch");
+            
             break;
 
         default:
@@ -1288,7 +1253,6 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
     datoBuscado = datoBuscado.toLowerCase();
     datoBuscado = datoBuscado.split(" ").join("");
     datoBuscado = datoBuscado.replace("-", "");
-    console.log(datoBuscado);
     let contenedorIndex = document.getElementsByClassName("contenedorIndex")[0];
     //Se borra la búsqueda que se había hecho en la anterior ejecución del método
     while (contenedorIndex.lastElementChild) {
@@ -1343,7 +1307,6 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
         else{
             cadenaFav = nombreFav;
         }
-        console.log("La cadena a introducir es " + cadenaFav);
         localStorage.setItem(`favoritos${categoriaFav}`,cadenaFav.concat("|"));
     }
     function eliminarFavorito(nombreFav,categoriaFav) {
@@ -1351,7 +1314,6 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
         let arrayFav =[];
         arrayFav = cadenaFav.split("|");
         arrayFav.pop();
-        console.log(arrayFav);
         let favsCadena = "";
         for(let i=0; i <arrayFav.length;i++){
             if(arrayFav[i] !=nombreFav){
@@ -1359,13 +1321,10 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
             }
         }
 
-        console.log(favsCadena);
         if(favsCadena!=""){
-            console.log("Entra 1")
             localStorage.setItem(`favoritos${categoriaFav}`,favsCadena);
         }
         else{
-            console.log("Entra 2")
             localStorage.removeItem(`favoritos${categoriaFav}`);
         }
     }
@@ -1489,12 +1448,9 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
         }
         
             if(localStorage.getItem("notasGuardadas")!=null){
-                console.log("entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                 let notasCadena = localStorage.getItem("notasGuardadas");
                 let arrayNotas = notasCadena.split("|");
-                console.log(arrayNotas);
                 arrayNotas.pop();
-                console.log(arrayNotas)
                 let  contador=0;
 
                 for(let i=arrayNotas.length-1;i>=0;i--){
@@ -1509,7 +1465,6 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
                     botonBorrar.innerHTML="DELETE";
                     botonBorrar.setAttribute("onclick","eliminarNota(event)");
                     divNotaCrear.append(botonBorrar);
-                    console.log("Entra Read")
                     contador++;
 
                     document.getElementsByClassName("notasGuardadas")[0].append(divNotaCrear);
@@ -1547,9 +1502,9 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
      */
     function eliminarNota(e) {
         let divNotaCrear = e.target.parentElement;
-        console.log(divNotaCrear);
+
         let cadenaBorrar = divNotaCrear.getElementsByTagName("p")[0].innerHTML;
-        console.log(cadenaBorrar);
+
         divNotaCrear.remove();
         let cadenaLS = localStorage.getItem("notasGuardadas");
         let arrayNotas = cadenaLS.split("|");
@@ -1560,12 +1515,12 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
                 arrayAux.push(nota)
             }
         }
-        console.log(arrayAux);
+
         arrayAux.pop();
         for(let nota of arrayAux){
             cadenaAux = cadenaAux.concat(nota).concat("|");
         }
-        console.log(cadenaAux);
+
         // Si se borra la única nota que hay, se borra el item del localstorage. En caso contrario, se pasa la nueva cadena. 
         if(cadenaAux==""){
             localStorage.removeItem("notasGuardadas");

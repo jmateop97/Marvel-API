@@ -31,7 +31,7 @@ html{
     margin: 90px auto auto auto;
     background-image: url(Imagenes/Diapositiva1.jpg);
     background-size: 100%;
-    animation: fade 20s;
+    animation: fade 25s;
 	transition: opacity 250ms ease-in-out;
 
 }
@@ -345,7 +345,7 @@ header{
     width: 250px;
 }
 
-.comic div{
+.comic div,.serie div{
     width: 90%;
     overflow: hidden;
 }
@@ -414,7 +414,8 @@ header{
     margin: 90px auto 0px 0px;
     color: white;
     height: calc(100% - 90px);
-    overflow: scroll;
+    overflow-y: scroll;
+
 }
 
 .nombreElementoEscogido h1{
@@ -765,6 +766,34 @@ header{
 
     .indicePaginas{
         max-width: 80vw;
+        flex-wrap: wrap;
+    }
+
+    .indicePaginas p{
+        margin: 20px auto;
+    }
+
+    .pantallaCarga{
+        background-size: 120%;
+    }
+}
+
+@media only screen and (max-device-width: 1024px) {
+    .favorito{
+        left: 18vw;
+    }
+
+    .contenedorIndex, .contenedorImagenesComics, .contenedorImagenesSeries, .contenedorImagenesEventos {
+        justify-content: center;
+    }
+
+    .contenedorFavoritos {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .superheroe img {
+        width: 225px;
     }
 }
 
@@ -816,6 +845,16 @@ header{
 
 @media only screen and (max-device-width: 425px) {
 
+
+    .buscadorSuperHeroes {
+        width: 80vw;
+    }
+
+    .buscadorSuperHeroes p{
+        width: fit-content;
+        margin: auto;
+    }
+
     @keyframes fade {
 
         0% {
@@ -855,6 +894,7 @@ header{
 
     .pantallaCarga p{
         margin: 0px auto;
+        width: 80vw;
     }
 
     .comicsSeries{
@@ -896,6 +936,43 @@ header{
         width: 200px;
     }
 }
+
+@media only screen and (max-device-width: 320px) {
+
+    .buscadorSuperHeroes {
+        width: 60vw;
+        display: block;
+    }
+
+    .buscadorSuperHeroes p{
+        width: fit-content;
+        margin: auto;
+    }
+
+    .favorito{
+        left: 35vw;
+    }
+
+    select{
+        margin: 20px auto;
+        display: block;
+    }
+
+    .buscadorSuperHeroes input{
+        margin: auto;
+        display: block;
+    }
+
+    .enlacesComicsSeries{
+        width: fit-content;
+        margin: 10px auto auto auto;
+    }
+
+    .enlacesComicsSeries a{
+        margin: auto 10px;
+    }
+}
+
 /* 
 @media (-webkit-min-device-pixel-ratio: 1.25) {
     .heroe {

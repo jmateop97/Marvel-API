@@ -1,0 +1,764 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Bangers';
+    letter-spacing: 1px;
+}
+
+::-webkit-scrollbar{
+    background: none;
+    width:5px;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background: red; 
+    border-radius: 10px;
+
+}
+
+html{
+    background: #0d0d16;
+}
+
+.pantallaCarga{
+    position: absolute;
+    z-index: 2;
+    width: 100vw;
+    height: calc(100vh - 90px);
+    background: #0d0d16;
+    margin: 90px auto auto auto;
+    background-image: url(Imagenes/Diapositiva1.jpg);
+    background-size: 100%;
+    animation: fade 20s;
+	transition: opacity 250ms ease-in-out;
+
+}
+
+@keyframes fade {
+
+	25% {
+		background-image: url(Imagenes/Diapositiva2.jpg);
+	}
+    50%{
+        background-image: url(Imagenes/Diapositiva3.jpg);
+    }
+	75% {
+        background-image: url(Imagenes/Diapositiva4.jpg);
+	}
+
+    100% {
+        background-image: url(Imagenes/Diapositiva5.webp);
+	}
+
+}
+
+.pantallaCarga p{
+    color: white;
+    width: fit-content;
+    margin: 20px auto auto auto;
+    font-size: x-large;
+    background: white;
+    color: black;
+    padding: 5px;
+}
+
+header{
+    width: 100%;
+    background: rgb(39, 38, 38);
+    display: flex;
+    height: fit-content;
+    padding: 20px 0px;
+    position: fixed;
+    z-index: 10;
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 5px 5px, rgb(0 0 0 / 19%) 0px 3px 5px 0px;
+}
+
+.headerInicio{
+    position: inherit;
+    position: fixed;
+    top: 0;
+}
+
+.logo{
+    display: flex;
+    width: fit-content;
+    height: 50px;
+    margin: auto 37% auto auto;
+    background: none;
+    border: none;
+}
+
+
+.logo{
+    display: flex;
+    text-decoration: none;
+}
+
+.logo img{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+}
+
+.logo h1{
+    color: white;
+    margin: auto 20px;
+    font-family: 'Bangers';
+}
+
+.logo:hover{
+    cursor: pointer;
+}
+
+
+.contenidoWiki{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    margin: 90px auto auto auto;
+}
+
+.imagenYDescripcion{
+    height: calc(100% - 90px);
+    position: fixed;
+    min-width: 40%;
+    max-width: 40%;
+    top: 15%;
+    overflow-y: scroll;
+    left: 0%;
+}
+
+.superheroe{
+    width: fit-content;
+    height: fit-content;
+    margin: 50px auto;
+    display: block;
+}
+
+.superheroe p{
+    width: fit-content;
+    height: fit-content;
+    max-width: 80%;
+    margin: auto;
+    font-size:-webkit-xxx-large;
+    font-weight: 400;
+    color: white;
+    font-family: 'Bangers';
+    text-align: center;
+
+}
+
+.superheroe img{
+    display: block;
+    width: 350px;
+    max-height: 350px;
+    object-fit: contain;
+    margin: 5% auto;
+    filter: drop-shadow(5px 5px 5px black);
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.descripcion{
+    width: fit-content;
+    height: fit-content;
+    color: white;
+    margin: 10% auto;
+}
+
+.parrafoDesc{
+    color: white;
+    width: fit-content;
+    height: fit-content;
+    margin: 2.5% auto;
+    font-family: 'Bangers';
+    text-align: center;
+    font-size: larger;
+    max-width: 80%;
+    text-align: justify;
+}
+
+.tituloDesc{
+    width: fit-content;
+    height: fit-content;
+    font-family: 'Bangers';
+    font-size: x-large;
+    margin: 10% auto 5% auto;
+    border-bottom: red 3px solid;
+    padding: 0px 10px;
+}
+
+.comicsSeries{
+    color: white;
+    min-width: 60%;
+    max-width: 60%;
+    margin: 20px auto 0% 40%;
+}
+
+.enlacesComicsSeries{
+    display: flex;
+    width: fit-content;
+    margin: 10px auto auto auto;
+}
+
+.enlacesComicsSeries:hover,.enlacesOtrosDatosElementoEscogido:hover{
+    cursor: pointer;
+}
+
+.enlacesComicsSeries a{
+    width: fit-content;
+    color: white;
+    margin: auto 50px ;
+    font-size: x-large;
+    text-decoration-color:rgba(0,0,0,0);
+}
+
+
+.tituloComics{
+    font-family: 'Bangers';
+    font-size: x-large;
+    width: fit-content;
+    margin: 0px auto 40px auto;
+}
+
+.contenedorImagenesComics,.contenedorImagenesSeries,.contenedorImagenesEventos{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.contenedorImagenesSeries,.contenedorImagenesEventos{
+    display: none;
+}
+
+
+
+
+.cargando{
+    width: fit-content;
+    margin: 30vh auto;
+
+}
+
+.cargando img{
+    width: 250px;
+    height: 250px;
+    margin: auto;
+    display: block;
+    animation:cargar 750ms infinite;
+}
+
+.cargando p,.mensajeError p{
+    width: fit-content;
+    margin: auto;
+    font-size: x-large;
+}
+
+.mensajeError{
+    width: fit-content;
+    margin: 25vh auto auto auto;
+}
+
+.mensajeError img{
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    display: block;
+    object-fit: contain;
+}
+
+@keyframes cargar {
+    0%{
+        transform: rotate(0deg);
+    }
+  100%{
+        transform: rotate(360deg);
+    }
+}
+
+
+.favorito{
+    z-index: 2;
+    display: block;
+    width: 20px;
+    height: fit-content;
+    position: relative;
+    background: white;
+    padding: 5px;
+    border-radius: 50%;
+    top: 5vh;
+    left: 10vw;
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 5px 5px, rgb(0 0 0 / 19%) 0px 3px 5px 0px;
+    border: 1px solid black;
+} 
+
+.favorito img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    margin: auto;
+}
+
+.enlacesHeader{
+    width: 100%;
+    margin: auto;
+    display: flex;
+}
+
+.enlaceSeccionFavoritos{
+    width: fit-content;
+    margin: auto 5% auto 0;
+    border: none;
+    background:none;
+}
+
+.enlaceSeccionFavoritos p{
+    width: fit-content;
+    margin: auto;
+    color: white;
+    font-size: larger;
+}
+
+.enlaceSeccionFavoritos:hover{
+    cursor: pointer;
+}
+
+.h1Favoritos{
+    margin: 130px auto auto auto;
+    color: white;
+    width: fit-content;
+    display: block;
+}
+
+.comic,.serie{
+    display: block;
+    width: 250px;
+    height: fit-content;
+    margin: 30px 10px;
+    overflow: hidden;
+}
+
+.serie{
+    width: 250px;
+    width: 250px;
+}
+
+.comic div{
+    width: 90%;
+    overflow: hidden;
+}
+
+.comic div img,.serie div img{
+    width: 100%;
+    height: 300px;
+    margin: auto 5%;
+    filter:drop-shadow(5px 5px 5px  black);
+    transition: .3s ease-in-out;
+
+}
+
+.comic a{
+    display: block;
+    overflow: hidden;
+}
+
+.comic div img:hover,.serie div img:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.serie img{
+    height: 90%;
+}
+
+
+.comic p,.serie p{
+    width: fit-content;
+    margin: 20px auto 0px auto;
+    font-family: 'Bangers';
+    height: fit-content;
+    text-align: center;
+    color: white;
+}
+
+.infoElementoEscogido{
+    display: flex;
+    position: relative;
+    top: 90px;
+    width: 100%;
+    margin: auto;
+    height: calc(100vh - 90px);
+}
+
+
+
+.imagenElementoEscogido{
+    width: 200px;
+    display: block;
+    height: 300px;
+    margin: 100px  auto auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+}
+
+.nombreElementoEscogido::after{
+
+}
+
+.nombreElementoEscogido {
+    width: 40vw;
+    max-width: 40vw;
+    margin: 0px auto 0px 0px;
+    color: white;
+}
+
+.nombreElementoEscogido h1{
+    width: fit-content;
+    margin: 20px auto;
+    text-align: center;
+    max-width: 80%;
+}
+
+.sinopsisElementoEscogido{
+    width: 95%;
+    margin: 50px auto auto;
+    color: white;
+    text-align: center;
+    letter-spacing: 2px;
+    line-height: 20px;
+}
+
+.sinopsisElementoEscogido p{
+    font-size: larger;
+}
+
+.otrosDatosComic{
+    width: 60vw;
+    margin: 0 auto;
+    color: white;
+}
+
+.enlacesOtrosDatosElementoEscogido{
+    display: flex;
+    width: fit-content;
+    margin: 50px auto;
+}
+
+.enlacesOtrosDatosElementoEscogido a{
+    width: fit-content;
+    margin: 0px 50px;
+    font-size: x-large;
+}
+
+.contenedorPersonajes,.contenedorComicsEventos,.contenedorFavoritos{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+}
+
+.contenedorFavoritos{
+    flex-wrap: nowrap;
+    overflow: scroll;
+    justify-content: start;
+}
+
+.categoriaPagFavoritos{
+    color: white;
+    font-size: x-large;
+    width: fit-content;
+
+}
+
+.personaje{
+    display: block;
+    width: 225px;
+    height: 225px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.divImagenPersonaje{
+    width: 100%;
+    height: 90%;
+    overflow: hidden;
+    margin: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+.divImagenPersonaje img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter:drop-shadow(5px 5px 5px  black);
+    object-fit: cover;
+    border-radius: 10px;
+
+}
+
+.divImagenPersonaje:hover img{
+    transform: scale(1.2);
+    transition: ease-in-out 300ms;
+    cursor: pointer;
+}
+
+.personaje p{
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.bannerInicio{
+    width: 100%;
+    height: 40vh;
+    background: url('https://www.megacitycomics.co.uk/acatalog/marvel-fresh-start-banner.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bannerInicio img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.seleccionSuperheroe{
+    position: inherit;
+    width: 90vw;
+    height: fit-content;
+    margin: 5%;
+    color: white;
+}
+
+.seleccionSuperheroe h2{
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    font-size: -webkit-xxx-large;
+}
+
+.contenedorIndex{
+    margin: 5vh auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: fit-content;
+}
+
+.heroe{
+    width: 245px;
+    height: fit-content;
+    margin: 20px 20px;
+    overflow: hidden;
+}
+
+.heroe div{
+    width: 90%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: auto;
+
+}
+
+.heroe div img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.heroe div:hover img{
+    transform: scale(1.2);
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+
+.heroe p{
+    width: fit-content;
+    height: fit-content;
+    margin: 20px auto 5px auto;
+    font-size: x-large;
+    text-align: center;
+    color: white;
+}
+
+
+
+.divImagen{
+    overflow: hidden;
+    border-radius: 10px;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+.divImagen img{
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter:drop-shadow(5px 5px 5px  black);
+    border-radius: 10px;
+    
+}
+
+.divImagen:hover img{ 
+    transform: scale(1.2);
+    border-radius: 10px;
+    transition: all 300ms;
+    cursor: pointer;
+}
+
+
+.indicePaginas{
+    width: fit-content;
+    max-width: 90%;
+    display: flex;
+    margin: auto;
+    height: fit-content;
+}
+
+.indicePaginas p{
+    padding: 10px 15px;
+    background: rgb(185, 4, 4);
+    text-align: center;
+    width: fit-content;
+    margin: auto 20px;
+    filter:drop-shadow(5px 5px 5px  black);
+    font-size: x-large;
+}
+
+.buscadorSuperHeroes{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    margin:50px auto;
+}
+
+
+.buscadorSuperHeroes  p{
+    width: fit-content;
+    margin: auto 20px;
+    font-size: larger;
+}
+
+.buscadorSuperHeroes  input{
+    width: 200px;
+    height: 20px;
+    font-size: larger;
+}
+
+.findHero{
+    width: fit-content;
+    height: fit-content;
+    margin: auto 20px;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------
+
+
+/*-------------------------------------------------------SECCIÓN DEL CRUD DE NOTAS-----------------------------------------*/
+
+
+.seccionNotas{
+    width: 60%;
+    margin: 50px auto;
+}
+
+.tituloSeccionNotas{
+    font-size: xx-large;
+    margin: auto;
+}
+
+.seccionNotas p{
+    color: white;
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.contenedorCRUD{
+    width: fit-content;
+    margin: auto;
+}
+
+.escribirNota{
+    width: fit-content;
+    margin: auto;
+}
+
+.divBotones{
+    display: flex;
+}
+
+.divBotones button{
+    font-size: larger;
+    margin: auto 10px;
+    padding: 5px;
+    border: none;
+}
+
+.divBotones button:hover{
+    cursor: pointer;
+}
+
+.divPadreNotaCrear{
+    display: flex;
+    width: fit-content;
+    margin: auto;
+}
+
+.divNotaCrear{
+    width: 500px;
+    border-bottom: 1px solid white;
+    margin: 20px auto;
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.divNotaCrear p{
+    width: fit-content;
+    height: fit-content;
+    display: block;
+    overflow-y:hidden;
+    margin: auto 20px;
+}
+
+.divNotaCrear button{
+    margin: auto 10px auto auto;
+    display: block;
+    font-size: small;
+    padding: 5px;
+    border: none;
+}
+
+.botonActualizar{
+    width: fit-content;
+    margin: auto;
+    display: block;
+    font-size: small;
+    border: none;
+    padding: 5px;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------MEDIA QUERYS---------------------------------*/
+
+@media (-webkit-min-device-pixel-ratio: 1.25) {
+    .heroe {
+        width: 225px;
+    }
+
+    .favorito{
+        left: 12vw;
+    }
+}

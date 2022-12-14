@@ -815,6 +815,28 @@ header{
 }
 
 @media only screen and (max-device-width: 425px) {
+
+    @keyframes fade {
+
+        0% {
+            background-image: url(Imagenes/Diapositiva1Movil.jpg);
+        }
+        25% {
+            background-image: url(Imagenes/Diapositiva1Movil.jpg);
+        }
+        50%{
+            background-image: url(Imagenes/Diapositiva2Movil.jpg);
+        }
+        75% {
+            background-image: url(Imagenes/Diapositiva3Movil.jpg);
+        }
+    
+        100% {
+            background-image: url(Imagenes/Diapositiva4Movil.jpg);
+        }
+    
+    }
+
     .contenidoWiki{
         display: block;
     }
@@ -829,6 +851,10 @@ header{
         position: inherit;
         max-width: 100vw;
         border-bottom: 1px solid red;
+    }
+
+    .pantallaCarga p{
+        margin: 0px auto;
     }
 
     .comicsSeries{

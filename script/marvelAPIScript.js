@@ -8,8 +8,8 @@ var tiempoEspera=20000;
 
 // const restoURL = "&ts=1&apikey=ee96dda5519334616bf7fc899b1f3642&hash=43b18ea9140e849e9fd68cf7bc0907c2"
 // const restoURL = "&ts=1&apikey=b870f65c899b2f131ab50461401a42d3&hash=6b99c8b03cb53de8a82e7bc3e251a952"
-// const restoURL = "&ts=1&apikey=a9c74dafc327d24f40d953a08e0eef9a&hash=a9131a330402b4bafc72630ec0c0766e"
-const restoURL = "&ts=1&apikey=6f7fd38a8d0087953e9ed5884e9faf11&hash=9b4a6548f63e760f0c5a6906b9978aca"
+ const restoURL = "&ts=1&apikey=a9c74dafc327d24f40d953a08e0eef9a&hash=a9131a330402b4bafc72630ec0c0766e"
+//const restoURL = "&ts=1&apikey=6f7fd38a8d0087953e9ed5884e9faf11&hash=9b4a6548f63e760f0c5a6906b9978aca"
 const restoURLCharacters = restoURL;
 const urlCompleta = urlAPI + restoURL;
 // //-------------------------------------------------------------------------------------------------------------------------

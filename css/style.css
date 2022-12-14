@@ -398,7 +398,7 @@ header{
     width: 200px;
     display: block;
     height: 300px;
-    margin: 100px  auto auto;
+    margin: 0px auto auto;
     padding: 20px;
     background: white;
     border-radius: 10px;
@@ -411,8 +411,10 @@ header{
 .nombreElementoEscogido {
     width: 40vw;
     max-width: 40vw;
-    margin: 0px auto 0px 0px;
+    margin: 90px auto 0px 0px;
     color: white;
+    height: calc(100% - 90px);
+    overflow: scroll;
 }
 
 .nombreElementoEscogido h1{
@@ -753,6 +755,122 @@ header{
 
 /*------------------------------------------MEDIA QUERYS---------------------------------*/
 
+@media only screen and (max-device-width: 1440px) {
+    .heroe {
+        width: 245px;
+    }
+    header{
+        width: 100vw;
+    }
+
+    .indicePaginas{
+        max-width: 80vw;
+    }
+}
+
+@media only screen and (max-device-width: 768px) {
+    .heroe {
+        width: 245px;
+    }
+    header{
+        width: 100vw;
+    }
+
+    .contenedorIndex{
+        justify-content: center;
+    }
+
+    .favorito{
+        top: 6vh;
+        left: 25vw;
+    }
+
+    .superheroe img{
+        width: 75%;
+    }
+
+    .indicePaginas{
+        max-width: 80vw;
+        flex-wrap: wrap;
+    }
+
+    .indicePaginas p{
+        margin: 20px 10px;
+    }
+
+    .contenedorImagenesComics,.contenedorImagenesSeries,.contenedorImagenesEventos{
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-device-width: 658px) {
+    .enlacesComicsSeries{
+        width: fit-content;
+        margin: 10px auto auto auto;
+    }
+
+    .enlacesComicsSeries a{
+        margin: auto 10px;
+    }
+}
+
+@media only screen and (max-device-width: 425px) {
+    .contenidoWiki{
+        display: block;
+    }
+
+    .indicePaginas{
+        justify-content: center;
+        max-width: 80vw;
+        flex-wrap: wrap;
+    }
+
+    .imagenYDescripcion{
+        position: inherit;
+        max-width: 100vw;
+        border-bottom: 1px solid red;
+    }
+
+    .comicsSeries{
+        margin: 20px auto ;
+    }
+
+    .contenedorFavoritos{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .categoriaPagFavoritos{
+        margin: 50px auto auto auto;
+    }
+    
+    .enlacesComicsSeries{
+        width: fit-content;
+        margin: 10px auto auto auto;
+    }
+
+    .enlacesComicsSeries a{
+        margin: auto 10px;
+    }
+
+    .favorito {
+        left: 40vw;
+    }
+
+    .seleccionSuperheroe h2{
+        font-size: xx-large;
+    }
+
+    .buscadorSuperHeroes input{
+        font-size: small;
+        margin: auto;
+    }
+    
+    .divNotaCrear {
+        width: 200px;
+    }
+}
+/* 
 @media (-webkit-min-device-pixel-ratio: 1.25) {
     .heroe {
         width: 225px;
@@ -761,4 +879,5 @@ header{
     .favorito{
         left: 12vw;
     }
-}
+} */
+

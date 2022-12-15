@@ -466,7 +466,7 @@ header{
 }
 
 .contenedorFavoritos{
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     overflow: scroll;
     justify-content: start;
 }

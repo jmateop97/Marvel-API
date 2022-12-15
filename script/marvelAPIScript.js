@@ -7,7 +7,8 @@ var urlEvents = 'https://gateway.marvel.com:443/v1/public/events?limit=100&offse
 var tiempoEspera=25000;
 
 // const restoURL = "&ts=1&apikey=ee96dda5519334616bf7fc899b1f3642&hash=43b18ea9140e849e9fd68cf7bc0907c2"
-// const restoURL = "&ts=1&apikey=b870f65c899b2f131ab50461401a42d3&hash=6b99c8b03cb53de8a82e7bc3e251a952"
+// const restoURL = "&ts=1&apikey=ee96dda5519334616bf7fc899b1f3642&hash=6b99c8b03cb53de8a82e7bc3e251a952"
+// const restoURL = "&ts=1&apikey=9f1c07dc6c016f629bfad8651d5f3281&hash=464700217c48f1224e1f7c3ce09fb712"
 const restoURL = "&ts=1&apikey=a9c74dafc327d24f40d953a08e0eef9a&hash=a9131a330402b4bafc72630ec0c0766e"
 // const restoURL = "&ts=1&apikey=6f7fd38a8d0087953e9ed5884e9faf11&hash=9b4a6548f63e760f0c5a6906b9978aca"
 const restoURLCharacters = restoURL;
@@ -77,9 +78,7 @@ function carruselImagenesCarga(numDiapositiva) {
 function marcarFavoritos(opcion,claseContenedor){
 
         if(localStorage.getItem(`favoritos${opcion}`)!=null){
-            let cadenaFav = localStorage.getItem(`favoritos${opcion}`);
-            let arrayFav = cadenaFav.split("|");
-
+            let arrayFav = JSON.parse(localStorage.getItem(`favoritos${opcion}`));
             let contenedor = document.getElementsByClassName(`${claseContenedor}`)[0];
 
             let divsContenedor;
@@ -116,9 +115,8 @@ function mostrarFavoritos() {
     h1.innerHTML="Your favorites";
     h1.classList.add("h1Favoritos");
     mainContainer.append(h1);
-    let cadenaFavoritos="";
     let favoritos;
-    var arrayFav=[];
+    let arrayFav=[];
     enInicio=false;
     let categorias =["Heroes","Comics","Series","Events"];
     let contador =0;
@@ -135,11 +133,7 @@ function mostrarFavoritos() {
             let contenedorIndex = document.createElement("section");
             contenedorIndex.classList.add("contenedorIndex");
             mainContainer.append(contenedorIndex);
-            cadenaFavoritos = localStorage.getItem(`favoritos${categorias[i]}`);
-            arrayFav = cadenaFavoritos.split("|");
-            if(arrayFav[arrayFav.length-1]==""){
-                arrayFav.pop();
-            }
+            arrayFav = JSON.parse(localStorage.getItem(`favoritos${categorias[i]}`));
             for(let j=0;j<arrayFav.length;j++){
                 let arrayFavAux;
                 if(i==0){
@@ -164,11 +158,14 @@ function mostrarFavoritos() {
         }
 
     }
+    document.getElementsByClassName("contenedorIndex")[0].classList.add("contenedorFavoritos");
     document.getElementsByClassName("contenedorIndex")[0].setAttribute("style","justify-content:start;")
+    document.getElementsByClassName("contenedorIndex")[0].classList.remove("contenedorIndex");
 
-    marcarFavoritos("Comics","contenedorIndex");
-    marcarFavoritos("Eventos","contenedorIndex");
-    marcarFavoritos("Series","contenedorIndex");
+
+    marcarFavoritos("Comics","contenedorFavoritos");
+    marcarFavoritos("Events","contenedorFavoritos");
+    marcarFavoritos("Series","contenedorFavoritos");
 
 
 }
@@ -333,8 +330,6 @@ async function comicsEnArray() {
         let json2=null;
         if (i == 0) {
             respuesta = await fetch(`${urlComics}${0}${restoURL}`);
-            respuesta2= await fetch(`${urlAPI}${0}${restoURL}`);
-            json2 = await respuesta2.json();
             arrayComics.push(json2.data.results[0]);
         }
         else if (i != 0) {
@@ -471,7 +466,7 @@ function desplegarElementosIniciales(tiempoEspera) {
         formarPantallaInicio();
         let buscarHeroe = document.getElementsByClassName("buscadorSuperHeroes")[0];
         let inputBusqueda = buscarHeroe.getElementsByTagName("input")[0];
-        inputBusqueda.addEventListener("keyup", (e) => {
+        inputBusqueda.addEventListener("blur", (e) => {
             let select = document.getElementsByTagName("select")[0];
             encontrarDatosBusqueda(e.target.value, select.value);
         })
@@ -960,6 +955,7 @@ function obtenerAparacionesHeroe(nombreHeroe,formatoAparicion) {
 
 /**
  * Método encargado de borrar la página entera. Se usa cuando queremos cargar otra página.
+ * Hace scroll hacia arriba.
  */
 function borrar() {
     window.scroll({ 
@@ -1172,6 +1168,9 @@ function verOtrosElementosEvento(){
     event.preventDefault();
 }
 
+/**
+ * Muestra los personajes que tiene el evento, cuando se viene, de los comics asociados a este.
+ */
 function verPersonajes() {
     let contenedorPersonajes = document.getElementsByClassName("contenedorPersonajes")[0];
     let contenedorComics = document.getElementsByClassName("contenedorComicsEventos")[0];
@@ -1300,29 +1299,44 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
      */
 
     function aniadirFavorito (nombreFav,categoriaFav){
-        let cadenaFav;
+        let arrayFav = [];
         if(localStorage.getItem(`favoritos${categoriaFav}`)!=null){
-            cadenaFav = localStorage.getItem(`favoritos${categoriaFav}`).concat(nombreFav);
+            arrayFav = JSON.parse(localStorage.getItem(`favoritos${categoriaFav}`));
+            arrayFav.push(nombreFav);
         }
         else{
-            cadenaFav = nombreFav;
+            arrayFav.push(nombreFav);
         }
-        localStorage.setItem(`favoritos${categoriaFav}`,cadenaFav.concat("|"));
+        localStorage.setItem(`favoritos${categoriaFav}`,JSON.stringify(arrayFav));
     }
+
+    /**
+     * Método encargado de eliminar un elemento de favoritos.
+     * @param {"Nombre del elemento a eliminar."} nombreFav 
+     * @param {"Categoría del elemento a eliminar"} categoriaFav 
+     */
     function eliminarFavorito(nombreFav,categoriaFav) {
-        let cadenaFav = localStorage.getItem(`favoritos${categoriaFav}`);
-        let arrayFav =[];
-        arrayFav = cadenaFav.split("|");
-        arrayFav.pop();
-        let favsCadena = "";
+        let arrayFav = [];
+        arrayFav = JSON.parse(localStorage.getItem(`favoritos${categoriaFav}`));
+        let arrayAux = [];
         for(let i=0; i <arrayFav.length;i++){
             if(arrayFav[i] !=nombreFav){
-                favsCadena = favsCadena.concat(arrayFav[i]).concat("|");
+                arrayAux.push(arrayFav[i]);
             }
         }
 
-        if(favsCadena!=""){
-            localStorage.setItem(`favoritos${categoriaFav}`,favsCadena);
+        if(document.getElementsByClassName("contenedorFavoritos").length>0){
+            let parrafosFavoritos = document.getElementsByTagName("p");
+            for(nombreElementoFavorito of parrafosFavoritos){
+                if(nombreElementoFavorito.innerText==nombreFav){
+                    let divEliminar = nombreElementoFavorito.parentElement;
+                    divEliminar.remove();
+                }
+            }
+        }
+
+        if(arrayAux.length>0){
+            localStorage.setItem(`favoritos${categoriaFav}`,JSON.stringify(arrayAux));
         }
         else{
             localStorage.removeItem(`favoritos${categoriaFav}`);
@@ -1331,10 +1345,10 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
 
     function esElementoFavorito(nombreFav,categoriaFav){
         let esta=false;
+
         if(localStorage.getItem(`favoritos${categoriaFav}`)!=null){
-            let cadenaFav = localStorage.getItem(`favoritos${categoriaFav}`);
-            let arrayFav = cadenaFav.split("|");
-     
+            let arrayFav = [];
+            arrayFav = JSON.parse(localStorage.getItem(`favoritos${categoriaFav}`));
             const resultado = arrayFav.filter(elemento => elemento==nombreFav);
             if(resultado.length>0){
                 esta = true;
@@ -1402,22 +1416,25 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
         if(document.getElementsByClassName("seccionNotas")[0].getElementsByTagName("button").length>4){
             document.getElementsByClassName("seccionNotas")[0].getElementsByTagName("button")[4].remove();
         }
-        let notaEscrita = e.target.parentElement.getElementsByTagName("input")[0].value.concat("|");
-        let notas;
+        let notaEscrita = e.target.parentElement.getElementsByTagName("input")[0].value;
         let arrayNotas;
+        let notas = []
+
+        //Las notas se guardan en un array, que se introduce en el local storage, en un formato JSON
         if(localStorage.getItem("notasGuardadas")!=null){
-            notas = localStorage.getItem("notasGuardadas");
-            localStorage.setItem("notasGuardadas",notas.concat(notaEscrita));
+            notas =  JSON.parse(localStorage.getItem("notasGuardadas"));
+            notas.push(notaEscrita);
+            localStorage.setItem("notasGuardadas",JSON.stringify(notas));
         }
         else{
-            localStorage.setItem("notasGuardadas",notaEscrita);
+            notas.push(notaEscrita);
+            localStorage.setItem("notasGuardadas",JSON.stringify(notas));
         }
-        //Las notas se guardan con el siguiente formato: "contenidoNota1"|"contenidoNota2"|...
-        arrayNotas = localStorage.getItem("notasGuardadas").split("|");
+
         //--------------------------------------------------------------------------------------
         
         //A veces quedan espacios en blanco al final
-        arrayNotas.pop();
+        // arrayNotas.pop();
         //------------------------------------------
         
         let mensaje = document.createElement("p");
@@ -1444,57 +1461,28 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
             for(let texto of document.querySelectorAll(".divNotaCrear")){
                 texto.remove();
             }
-
         }
         
             if(localStorage.getItem("notasGuardadas")!=null){
-                let notasCadena = localStorage.getItem("notasGuardadas");
-                let arrayNotas = notasCadena.split("|");
-                arrayNotas.pop();
-                let  contador=0;
+                let notas = [];
+                notas =  JSON.parse(localStorage.getItem("notasGuardadas"));
 
-                for(let i=arrayNotas.length-1;i>=0;i--){
+                for(let i=notas.length-1;i>=0;i--){
                     let divNotaCrear = document.createElement("div");
                     divNotaCrear.classList.add("divNotaCrear");
 
                     let notaP = document.createElement("p");
                     divNotaCrear.append(notaP);
-                    notaP.innerHTML=`${arrayNotas[i]}`;
+                    notaP.innerHTML=`${notas[i]}`;
 
                     let botonBorrar = document.createElement("button");
                     botonBorrar.innerHTML="DELETE";
                     botonBorrar.setAttribute("onclick","eliminarNota(event)");
                     divNotaCrear.append(botonBorrar);
-                    contador++;
-
                     document.getElementsByClassName("notasGuardadas")[0].append(divNotaCrear);
                 }
             }
     }
-
-    function actualizarDatos() {
-
-        let bloquesTexto = document.getElementsByTagName("textarea");
-        let notas ="";
-        for(let i=0;i<bloquesTexto.length;i++){
-            if(bloquesTexto[i].value!=""){
-                notas = notas.concat(bloquesTexto[i].value).concat("|");
-            }
-        }
-
-        localStorage.setItem("notasGuardadas",notas);
-        for(let j=0;j<document.getElementsByClassName("divNotaCrear").length;j++){
-            document.getElementsByClassName("divNotaCrear")[j].innerHTML="";
-        }
-        let mensaje = document.createElement("p");
-        mensaje.innerHTML="Notes updated";
-        document.getElementsByClassName("seccionNotas")[0].appendChild(mensaje);
-        document.getElementsByClassName("seccionNotas")[0].getElementsByTagName("button")[4].remove();
-        setTimeout(()=>{
-            mensaje.remove();
-        },2000)
-    }
-
 
     /**
      * Método encargado de eliminar una nota del local storage. 
@@ -1502,31 +1490,23 @@ function encontrarDatosBusqueda(datoBuscado, opcionSelect) {
      */
     function eliminarNota(e) {
         let divNotaCrear = e.target.parentElement;
-
         let cadenaBorrar = divNotaCrear.getElementsByTagName("p")[0].innerHTML;
-
         divNotaCrear.remove();
-        let cadenaLS = localStorage.getItem("notasGuardadas");
-        let arrayNotas = cadenaLS.split("|");
-        let arrayAux=[];
-        let cadenaAux="";
+        let arrayNotas = []
+        arrayNotas =  JSON.parse(localStorage.getItem("notasGuardadas"));
+        let arrayAux = [];
         for(let nota of arrayNotas){
             if(nota!=cadenaBorrar){
                 arrayAux.push(nota)
             }
         }
 
-        arrayAux.pop();
-        for(let nota of arrayAux){
-            cadenaAux = cadenaAux.concat(nota).concat("|");
-        }
-
         // Si se borra la única nota que hay, se borra el item del localstorage. En caso contrario, se pasa la nueva cadena. 
-        if(cadenaAux==""){
+        if(arrayAux.length==0){
             localStorage.removeItem("notasGuardadas");
         }
         else{
-            localStorage.setItem("notasGuardadas",cadenaAux);
+            localStorage.setItem("notasGuardadas",JSON.stringify(arrayAux));
         }
 
     }   
